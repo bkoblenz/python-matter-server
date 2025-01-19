@@ -25,6 +25,7 @@ DEFAULT_FABRIC_ID = 1
 DEFAULT_PORT = 5580
 # Default to None to bind to all addresses on both IPv4 and IPv6
 DEFAULT_LISTEN_ADDRESS = None
+DEFAULT_CLIENT_ADDRESS = None
 DEFAULT_STORAGE_PATH = os.path.join(Path.home(), ".matter_server")
 
 FORMAT_DATE: Final = "%Y-%m-%d"
@@ -126,6 +127,13 @@ parser.add_argument(
     "--disable-server-interactions",
     action="store_false",
     help="Controls disabling server cluster interactions on a controller. This in turn disables advertisement of active controller operational identities.",
+)
+parser.add_argument(
+    "--client-address",
+    type=str,
+    action="append",
+    default=DEFAULT_CLIENT_ADDRESS,
+    help="IP addresses that restrict client connections, defaults to any IPv4 and IPv6 address.",
 )
 
 args = parser.parse_args()
@@ -229,6 +237,7 @@ def main() -> None:
         args.bluetooth_adapter,
         args.ota_provider_dir,
         args.disable_server_interactions,
+        args.client_address,
     )
 
     async def handle_stop(loop: asyncio.AbstractEventLoop) -> None:

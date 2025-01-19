@@ -15,7 +15,7 @@ else
   python -m venv .venv
 fi
 echo "Activating virtual environment..."
-source .venv/bin/activate
+source $env_name/bin/activate
 
 echo "Installing development dependencies..."
 

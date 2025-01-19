@@ -21,7 +21,7 @@ DEFAULT_FABRIC_ID = 1
 DEFAULT_PORT = 5580
 DEFAULT_URL = f"http://127.0.0.1:{DEFAULT_PORT}/ws"
 DEFAULT_STORAGE_PATH = os.path.join(Path.home(), ".matter_server")
-
+DEFAULT_CLIENT_ADDRESS = None
 
 # Get parsed passed in arguments.
 parser = argparse.ArgumentParser(description="Matter Server Example.")
@@ -49,6 +49,13 @@ parser.add_argument(
     default=None,
     help="Primary network interface for link-local addresses (optional).",
 )
+parser.add_argument(
+    "--client-address",
+    type=str,
+    action="append",
+    default=DEFAULT_CLIENT_ADDRESS,
+    help="IP addresses that restrict client connections, defaults to any IPv4 and IPv6 address.",
+)
 
 args = parser.parse_args()
 
@@ -69,6 +76,14 @@ if __name__ == "__main__":
         DEFAULT_FABRIC_ID,
         int(args.port),
         args.primary_interface,
+        None, #listen_addresses
+        args.primary_interface,
+        None, # paa_root_cert_dir
+        False, # enable_test_net_dcl
+        None, # bluetooth_adapter_id,
+        None, # ota_provider_dir,
+        True, # enable_server_interactions
+        args.client_address,
     )
 
     async def run_matter():

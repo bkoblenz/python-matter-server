@@ -113,6 +113,7 @@ class MatterServer:
         bluetooth_adapter_id: int | None = None,
         ota_provider_dir: Path | None = None,
         enable_server_interactions: bool = True,
+        client_addresses: list[str] | None = None,
     ) -> None:
         """Initialize the Matter Server."""
         self.storage_path = storage_path
@@ -121,6 +122,7 @@ class MatterServer:
         self.port = port
         self.listen_addresses = listen_addresses
         self.primary_interface = primary_interface
+        self.client_addresses = client_addresses
         if paa_root_cert_dir is None:
             self.paa_root_cert_dir = DEFAULT_PAA_ROOT_CERTS_DIR
         else:

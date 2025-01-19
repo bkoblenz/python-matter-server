@@ -75,6 +75,9 @@ class WebsocketClientHandler:
         # pylint: disable=too-many-branches,too-many-statements
         request = self.request
         wsock = self.wsock
+        if self.server.client_addresses and request.remote not in self.server.client_addresses:
+            self._logger.warning("Non-local client %s", request.remote)
+            return wsock
         try:
             async with async_timeout.timeout(10):
                 await wsock.prepare(request)
